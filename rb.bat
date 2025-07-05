@@ -1,1 +1,1 @@
-./gradlew rebuildpatches
+gradlew rebuildPaperPatches & gradlew rebuildServerPatches & gradlew rebuildMinecraftPatches

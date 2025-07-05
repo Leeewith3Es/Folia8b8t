@@ -7,7 +7,7 @@
 ## Overview
 
 Folia groups nearby loaded chunks to form an "independent region."
-See [REGION_LOGIC.md](REGION_LOGIC.md) for exact details on how Folia
+See [the PaperMC documentation](https://docs.papermc.io/folia/reference/region-logic) for exact details on how Folia
 will group nearby chunks.
 Each independent region has its own tick loop, which is ticked at the
 regular Minecraft tickrate (20TPS). The tick loops are executed
@@ -22,7 +22,7 @@ threadpool. Thus, Folia should scale well for servers like this.
 Folia is also its own project, this will not be merged into Paper
 for the foreseeable future. 
 
-A more detailed but abstract overview: [PROJECT_DESCRIPTION.md](PROJECT_DESCRIPTION.md).
+A more detailed but abstract overview: [Project overview](https://docs.papermc.io/folia/reference/overview).
 
 ## FAQ
 
@@ -86,7 +86,7 @@ be compatible with Folia. However, there are plans to add API that
 would allow Folia plugins to be compatible with Paper.
 
 For example, the Bukkit Scheduler. The Bukkit Scheduler inherently
-relies on a single main thread. Folia's RegionisedScheduler and Folia's
+relies on a single main thread. Folia's RegionScheduler and Folia's
 EntityScheduler allow scheduling of tasks to the "next tick" of whatever
 region "owns" either a location or an entity. These could be implemented
 on regular Paper, except they schedule to the main thread - in both cases,
@@ -121,11 +121,11 @@ prevent and find these bugs is to make bad accesses fail _hard_ at the
 source of the bad access.
 
 This means that Folia compatible plugins need to take advantage of 
-API like the RegionisedScheduler and the EntityScheduler to ensure 
+API like the RegionScheduler and the EntityScheduler to ensure 
 their code is running on the correct thread context.
 
 In general, it is safe to assume that a region owns chunk data
-in an approximate 8 chunks from the source of an event (i.e player
+in an approximate 8 chunks from the source of an event (i.e. player
 breaks block, can probably access 8 chunks around that block). But,
 this is not guaranteed - plugins should take advantage of upcoming
 thread-check API to ensure correct behavior.
@@ -137,7 +137,7 @@ specifically entity/chunk/poi data, and is entirely unrelated
 to **ANY** plugin data.
 
 Normal multithreading rules apply to data that plugins store/access
-their own data or another plugin's - events/commands/etc are called 
+their own data or another plugin's - events/commands/etc. are called 
 in _parallel_ because regions are ticking in _parallel_ (we CANNOT 
 call them in a synchronous fashion, as this opens up deadlock issues 
 and would handicap performance). There are no easy ways out of this, 
@@ -149,7 +149,7 @@ issues, which then become near impossible to debug.
 ### Current API additions
 
 To properly understand API additions, please read
-[PROJECT_DESCRIPTION.md](PROJECT_DESCRIPTION.md).
+[Project overview](https://docs.papermc.io/folia/reference/overview).
 
 - RegionScheduler, AsyncScheduler, GlobalRegionScheduler, and EntityScheduler 
   acting as a replacement for  the BukkitScheduler.
@@ -161,7 +161,7 @@ To properly understand API additions, please read
 ### Thread contexts for API
 
 To properly understand API additions, please read
-[PROJECT_DESCRIPTION.md](PROJECT_DESCRIPTION.md).
+[Project overview](https://docs.papermc.io/folia/reference/overview).
 
 General rules of thumb:
 
@@ -216,7 +216,7 @@ even though there is no main thread anymore.
 <dependency>
     <groupId>dev.folia</groupId>
     <artifactId>folia-api</artifactId>
-    <version>1.19.4-R0.1-SNAPSHOT</version>
+    <version>1.20.1-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
 </dependency>
  ```
